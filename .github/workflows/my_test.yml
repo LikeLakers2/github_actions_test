@@ -23,8 +23,8 @@ jobs:
 
           for i in $( seq $FAIL_COUNT ); do
             CURRENT_FAIL=$(jq -r --arg i $i '.[($i | tonumber) - 1]' ./failed_unit_tests.json)
-            TEST=$(jq -r '.name' <$CURRENT_FAIL)
-            MESSAGE=$(jq -r '.message' <$CURRENT_FAIL)
+            TEST=$(jq -r '.name' -- $CURRENT_FAIL)
+            MESSAGE=$(jq -r '.message' -- $CURRENT_FAIL)
 
             echo "### `$TEST`" >> $GITHUB_STEP_SUMMARY
             echo '```' >> $GITHUB_STEP_SUMMARY
