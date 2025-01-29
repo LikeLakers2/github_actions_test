@@ -23,12 +23,12 @@ jobs:
 
           for i in $( seq $FAIL_COUNT ); do
             CURRENT_FAIL=$(echo $FAILED_UNIT_TESTS | jq --arg i $i '.[($i | tonumber) - 1]')
+            
             TEST=$(echo $CURRENT_FAIL | jq --raw-output '.name')
-            MESSAGE=$(echo $CURRENT_FAIL | jq --raw-output '.message')
 
             echo "### $TEST" >> $GITHUB_STEP_SUMMARY
             echo '```' >> $GITHUB_STEP_SUMMARY
-            echo $MESSAGE >> $GITHUB_STEP_SUMMARY
+            echo $CURRENT_FAIL | jq --raw-output '.message' >> $GITHUB_STEP_SUMMARY
             echo '```' >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
           done
