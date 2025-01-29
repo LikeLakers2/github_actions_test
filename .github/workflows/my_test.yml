@@ -13,7 +13,7 @@ jobs:
       - name: Write a step summary
         run: |
           # Get a JSON array of failed unit tests
-          jq 'to_entries | map(.value | select(.status == 1))' data/unit_tests.json > ./failed_unit_tests.json
+          jq 'to_entries | map(.value | select(.status == 1))' unit_tests.json > ./failed_unit_tests.json
 
           FAIL_COUNT=$(jq -r 'length' ./failed_unit_tests.json)
 
