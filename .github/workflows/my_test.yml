@@ -26,7 +26,7 @@ jobs:
             TEST=$(echo $CURRENT_FAIL | jq -r '.name')
             MESSAGE=$(echo $CURRENT_FAIL | jq -r '.message')
 
-            echo "### `$TEST`" >> $GITHUB_STEP_SUMMARY
+            echo "### $TEST" >> $GITHUB_STEP_SUMMARY
             echo '```' >> $GITHUB_STEP_SUMMARY
             echo $MESSAGE >> $GITHUB_STEP_SUMMARY
             echo '```' >> $GITHUB_STEP_SUMMARY
