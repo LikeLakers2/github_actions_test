@@ -15,16 +15,16 @@ jobs:
           # Get a JSON array of failed unit tests
           FAILED_UNIT_TESTS=$(jq 'to_entries | map(.value | select(.status == 1))' unit_tests.json)
 
-          FAIL_COUNT=$(echo $FAILED_UNIT_TESTS | jq -r 'length')
+          FAIL_COUNT=$(echo $FAILED_UNIT_TESTS | jq 'length')
 
           echo "# Test failures" >> $GITHUB_STEP_SUMMARY
           echo "$FAIL_COUNT test failures." >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
 
           for i in $( seq $FAIL_COUNT ); do
-            CURRENT_FAIL=$(echo $FAILED_UNIT_TESTS | jq -r --arg i $i '.[($i | tonumber) - 1]')
-            TEST=$(echo $CURRENT_FAIL | jq -r '.name')
-            MESSAGE=$(echo $CURRENT_FAIL | jq -r '.message')
+            CURRENT_FAIL=$(echo $FAILED_UNIT_TESTS | jq --arg i $i '.[($i | tonumber) - 1]')
+            TEST=$(echo $CURRENT_FAIL | jq '.name')
+            MESSAGE=$(echo $CURRENT_FAIL | jq '.message')
 
             echo "### $TEST" >> $GITHUB_STEP_SUMMARY
             echo '```' >> $GITHUB_STEP_SUMMARY
