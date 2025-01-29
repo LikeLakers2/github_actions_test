@@ -22,6 +22,9 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
 
           for i in $( seq $FAIL_COUNT ); do
+            JQ_ENV=$(jq -r '$ENV' ./failed_unit_tests.json)
+            echo $JQ_ENV
+            
             TEST=$(jq -r '.[$ENV.i - 1].name' ./failed_unit_tests.json)
             MESSAGE=$(jq -r '.[$ENV.i - 1].message' ./failed_unit_tests.json)
 
