@@ -22,10 +22,11 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
 
           for i in $( seq $FAIL_COUNT ); do
-            TEST=$(jq -r --arg i $i '.[($i | tonumber) - 1].name' ./failed_unit_tests.json)
-            MESSAGE=$(jq -r --arg i $i '.[($i | tonumber) - 1].message' ./failed_unit_tests.json)
+            CURRENT_FAIL=$(jq -r --arg i $i '.[($i | tonumber) - 1]' ./failed_unit_tests.json)
+            TEST=$(jq -r '.name' <$CURRENT_FAIL)
+            MESSAGE=$(jq -r '.message' <$CURRENT_FAIL)
 
-            echo '### `$TEST`' >> $GITHUB_STEP_SUMMARY
+            echo "### `$TEST`" >> $GITHUB_STEP_SUMMARY
             echo '```' >> $GITHUB_STEP_SUMMARY
             echo $MESSAGE >> $GITHUB_STEP_SUMMARY
             echo '```' >> $GITHUB_STEP_SUMMARY
