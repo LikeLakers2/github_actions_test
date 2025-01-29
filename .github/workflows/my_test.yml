@@ -13,16 +13,16 @@ jobs:
       - name: Write a step summary
         run: |
           # Get a JSON array of failed unit tests
-          jq 'to_entries | map(.value | select(.status == 1))' unit_tests.json > ./failed_unit_tests.json
+          FAILED_UNIT_TESTS=$(jq 'to_entries | map(.value | select(.status == 1))' unit_tests.json)
 
-          FAIL_COUNT=$(jq -r 'length' ./failed_unit_tests.json)
+          FAIL_COUNT=$(echo $FAILED_UNIT_TESTS | jq -r 'length')
 
           echo "# Test failures" >> $GITHUB_STEP_SUMMARY
           echo "$FAIL_COUNT test failures." >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
 
           for i in $( seq $FAIL_COUNT ); do
-            CURRENT_FAIL=$(jq -r --arg i $i '.[($i | tonumber) - 1]' ./failed_unit_tests.json)
+            CURRENT_FAIL=$(echo $FAILED_UNIT_TESTS | jq -r --arg i $i '.[($i | tonumber) - 1]')
             TEST=$(echo $CURRENT_FAIL | jq -r '.name')
             MESSAGE=$(echo $CURRENT_FAIL | jq -r '.message')
 
