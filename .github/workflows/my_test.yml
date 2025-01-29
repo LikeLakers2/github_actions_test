@@ -1,0 +1,34 @@
+name: My Test
+on:
+  push:
+    branches:
+    - master
+
+jobs:
+  the_test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Write a step summary
+        run: |
+          # Get a JSON array of failed unit tests
+          jq 'to_entries | map(.value | select(.status == 1))' data/unit_tests.json > ./failed_unit_tests.json
+
+          FAIL_COUNT=$(jq -r 'length' ./failed_unit_tests.json)
+
+          echo "# Test failures" >> $GITHUB_STEP_SUMMARY
+          echo "$FAIL_COUNT test failures." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          for i in $( seq $FAIL_COUNT ); do
+            TEST=$(jq -r '.[$ENV.i - 1].name' ./failed_unit_tests.json)
+            MESSAGE=$(jq -r '.[$ENV.i - 1].message' ./failed_unit_tests.json)
+
+            echo '### `$TEST`' >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+            echo $MESSAGE >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+          done
+
