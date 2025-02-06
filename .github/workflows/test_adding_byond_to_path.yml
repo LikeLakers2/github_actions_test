@@ -31,14 +31,12 @@ jobs:
           curl --fail "https://www.byond.com/download/build/${BYOND_MAJOR}/${BYOND_MAJOR}.${BYOND_MINOR}_byond_linux.zip" --output byond_linux.zip
       - name: Add BYOND to path
         run: |
-          unzip byond_linux.zip
-          cd byond
+          OLD_PWD=$PWD
+          unzip byond_linux.zip -d ~
+          cd ~/byond
           make here
-          
-          echo "BYOND_SYSTEM=$PWD" >> $GITHUB_ENV
-          echo "PATH=$PWD/bin:$PATH" >> $GITHUB_ENV
-          echo "LD_LIBRARY_PATH=$PWD/bin:$LD_LIBRARY_PATH" >> $GITHUB_ENV
-          echo "MANPATH=$PWD/man:$MANPATH" >> $GITHUB_ENV
+          echo "source $PWD/bin/byondsetup" >> ~/.bash_profile
+          cd $OLD_PWD
       - name: Test using BYOND
         run: |
           DreamDaemon -help
