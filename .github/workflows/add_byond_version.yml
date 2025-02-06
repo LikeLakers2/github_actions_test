@@ -39,8 +39,8 @@ jobs:
           GH_TOKEN: ${{github.token}}
         run: |
           gh release create \
-            --title ${{env.NEW_RELEASE_TITLE}} \
-            ${{env.NEW_TAG_NAME}} \
+            --title "${{env.NEW_RELEASE_TITLE}}" \
+            "${{env.NEW_TAG_NAME}}" \
             byond_*.zip
           
           rm byond_*.zip
