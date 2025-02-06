@@ -35,4 +35,4 @@ jobs:
         env:
           GH_TOKEN: ${{github.token}}
         run: |
-          gh release create --title "v${{inputs.major}}.${{inputs.minor}}" v${{inputs.major}}.${{inputs.minor}}-${{github.run_id}} byond_*.zip
+          gh release create --title "BYOND ${{inputs.major}}.${{inputs.minor}}" --notes "" byond_${{inputs.major}}.${{inputs.minor}}_${{github.run_id}} byond_*.zip
