@@ -35,7 +35,7 @@ jobs:
           unzip byond_linux.zip -d ~
           cd ~/byond
           make here
-          echo "source $PWD/bin/byondsetup" >> ~/.bash_profile
+          echo "$PWD/bin" >> $GITHUB_PATH
           cd $OLD_PWD
       - name: Test using BYOND
         run: |
