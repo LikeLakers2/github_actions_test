@@ -18,7 +18,7 @@ jobs:
           cd ~
           unzip byond_linux.zip
           cd byond
-          make install
+          sudo make install
       - name: Test using BYOND
         run: |
           DreamDaemon -help
