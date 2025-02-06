@@ -1,0 +1,14 @@
+name: See what Github env contains
+
+on:
+  workflow_dispatch:
+
+jobs:
+  see_what_it_contains:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Print env
+        run: printenv
+      - name: Print GITHUB_ENV
+        run: cat $GITHUB_ENV
