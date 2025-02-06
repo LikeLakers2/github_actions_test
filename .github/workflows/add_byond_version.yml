@@ -11,10 +11,6 @@ on:
         description: The minor version of BYOND to add (the part after the `.`)
         required: true
         type: number
-      is_beta:
-        description: If this build of BYOND is considered a beta build (this will mark it as a pre-release)
-        required: false
-        type: boolean
 
 permissions:
   contents: write
@@ -23,7 +19,7 @@ env:
   BYOND_MAJOR: ${{inputs.major}}
   BYOND_MINOR: ${{inputs.minor}}
   NEW_RELEASE_TITLE: "BYOND ${{inputs.major}}.${{inputs.minor}}"
-  NEW_TAG_NAME: "byond_${{inputs.major}}.${{inputs.minor}}_${{github.run_id}}"
+  NEW_TAG_NAME: "byond_${{inputs.major}}.${{inputs.minor}}"
 
 jobs:
   add_byond_release:
@@ -42,5 +38,3 @@ jobs:
             --title "${{env.NEW_RELEASE_TITLE}}" \
             "${{env.NEW_TAG_NAME}}" \
             byond_*.zip
-          
-          rm byond_*.zip
