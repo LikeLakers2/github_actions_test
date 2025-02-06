@@ -30,6 +30,33 @@ jobs:
         run: |
           curl --fail "https://www.byond.com/download/build/${BYOND_MAJOR}/${BYOND_MAJOR}.${BYOND_MINOR}_byond_linux.zip" --output byond_linux.zip
           curl --fail "https://www.byond.com/download/build/${BYOND_MAJOR}/${BYOND_MAJOR}.${BYOND_MINOR}_byond.zip" --output byond_windows.zip
+      - name: Setup BYOND Linux release
+        run: |
+          # Builds a release for the Linux version.
+          mkdir build_linux
+          cd ./build_linux
+          
+          curl --fail "https://www.byond.com/download/build/${BYOND_MAJOR}/${BYOND_MAJOR}.${BYOND_MINOR}_byond_linux.zip" --output byond_download_linux.zip
+          unzip byond_download_linux.zip
+          
+          echo $PWD
+          exit 1
+          
+          # Create .sh files for each of the programs, that directs to `byondexec`. `byondexec` sets
+          # up the environment for us before running the program, so we don't need to do that
+          # ourselves.
+          cd ./byond/bin
+          for file in $( find . -type f -executable ); do
+            SCRIPT_FILE="${file}.sh"
+            touch $SCRIPT_FILE
+            BYOND_EXEC=$( realpath byondexec )
+            BYOND_FILE=$( realpath $file )
+            echo '#!/bin/sh' > $SCRIPT_FILE
+            echo 'shift 1' >> $SCRIPT_FILE
+            echo \"$BYOND_EXEC\" \"${BYOND_FILE}\" '"$@"' >> $SCRIPT_FILE
+          done
+          cd ../..
+          
       - name: Create GitHub Release
         env:
           GH_TOKEN: ${{github.token}}
