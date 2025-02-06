@@ -9,13 +9,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Download BYOND releases
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
-          curl --fail "https://github.com/LikeLakers2/github_actions_test/releases/download/byond_515.1642/byond_linux.zip" --output byond_linux.zip
+          gh release download byond_515.1642 --pattern byond_linux.zip --dir ~
       - name: Add BYOND to path
         run: |
           OLD_PWD=$PWD
-          unzip byond_linux.zip -d ~
-          cd ~/byond
+          cd ~
+          unzip byond_linux.zip
+          cd byond
           make here
           echo "$PWD/bin" >> $GITHUB_PATH
           cd $OLD_PWD
