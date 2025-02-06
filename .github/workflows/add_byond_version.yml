@@ -32,5 +32,7 @@ jobs:
           curl --fail "https://www.byond.com/download/build/${BYOND_MAJOR}/${BYOND_MAJOR}.${BYOND_MINOR}_byond_linux.zip" --output byond_linux.zip
           curl --fail "https://www.byond.com/download/build/${BYOND_MAJOR}/${BYOND_MAJOR}.${BYOND_MINOR}_byond.zip" --output byond_windows.zip
       - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           gh release create v${{ inputs.major }}.${{ inputs.minor }}-${{ github.run_id }}
