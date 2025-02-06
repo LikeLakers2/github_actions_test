@@ -13,15 +13,20 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh release download byond_515.1642 --pattern byond_linux.zip --dir ~
-      - name: Add BYOND to path
+      - name: Unzip and make BYOND
         run: |
-          OLD_PWD=$PWD
           cd ~
           unzip byond_linux.zip
           cd byond
           make here
-          echo "$PWD/bin" >> $GITHUB_PATH
-          cd $OLD_PWD
+      - name: Add BYOND environmental variables
+        run: |
+          source ~/byond/bin/byondsetup
+          echo "$PATH" >> $GITHUB_PATH
+          # Apply any environment variables from byond setup
+          printenv > $GITHUB_ENV
+      - name: Print env
+        run: printenv
       - name: Test using BYOND
         run: |
           DreamDaemon -help
