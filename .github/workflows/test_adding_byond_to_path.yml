@@ -2,24 +2,6 @@ name: Test Add BYOND to path
 
 on:
   workflow_dispatch:
-    inputs:
-      major:
-        description: The major version of BYOND to add (the part before the `.`)
-        required: true
-        type: number
-      minor:
-        description: The minor version of BYOND to add (the part after the `.`)
-        required: true
-        type: number
-
-permissions:
-  contents: write
-
-env:
-  BYOND_MAJOR: ${{inputs.major}}
-  BYOND_MINOR: ${{inputs.minor}}
-  NEW_RELEASE_TITLE: "BYOND ${{inputs.major}}.${{inputs.minor}}"
-  NEW_TAG_NAME: "byond_${{inputs.major}}.${{inputs.minor}}"
 
 jobs:
   add_byond_release:
@@ -28,7 +10,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Download BYOND releases
         run: |
-          curl --fail "https://www.byond.com/download/build/${BYOND_MAJOR}/${BYOND_MAJOR}.${BYOND_MINOR}_byond_linux.zip" --output byond_linux.zip
+          curl --fail "https://github.com/LikeLakers2/github_actions_test/releases/download/byond_515.1642/byond_linux.zip"
       - name: Add BYOND to path
         run: |
           OLD_PWD=$PWD
