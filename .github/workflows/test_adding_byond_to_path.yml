@@ -18,15 +18,7 @@ jobs:
           cd ~
           unzip byond_linux.zip
           cd byond
-          make here
-      - name: Add BYOND environmental variables
-        run: |
-          source ~/byond/bin/byondsetup
-          echo "$PATH" > $GITHUB_PATH
-          # Apply any environment variables from byond setup
-          printenv > $GITHUB_ENV
-      - name: Print env
-        run: printenv
+          make install
       - name: Test using BYOND
         run: |
           DreamDaemon -help
