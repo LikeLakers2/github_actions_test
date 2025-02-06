@@ -1,7 +1,7 @@
 name: Add BYOND version
 
 on:
-  workflow_call:
+  workflow_dispatch:
     inputs:
       major:
         description: The major version of BYOND to add (the part before the `.`)
