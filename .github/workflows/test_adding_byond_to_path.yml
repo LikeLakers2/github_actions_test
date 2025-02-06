@@ -22,7 +22,7 @@ jobs:
       - name: Add BYOND environmental variables
         run: |
           source ~/byond/bin/byondsetup
-          echo "$PATH" >> $GITHUB_PATH
+          echo "$PATH" > $GITHUB_PATH
           # Apply any environment variables from byond setup
           printenv > $GITHUB_ENV
       - name: Print env
