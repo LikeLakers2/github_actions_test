@@ -1,0 +1,36 @@
+name: Add BYOND version
+
+on:
+  workflow_call:
+    inputs:
+      major:
+        description: The major version of BYOND to add (the part before the `.`)
+        required: true
+        type: number
+      minor:
+        description: The minor version of BYOND to add (the part after the `.`)
+        required: true
+        type: number
+      is_beta:
+        description: If this build of BYOND is considered a beta build (this will mark it as a pre-release)
+        required: false
+        type: boolean
+
+permissions:
+  contents: write
+
+jobs:
+  add_byond_release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download BYOND releases
+        env:
+          BYOND_MAJOR: ${{ inputs.major }}
+          BYOND_MINOR: ${{ inputs.minor }}
+        run: |
+          curl --fail "https://www.byond.com/download/build/${BYOND_MAJOR}/${BYOND_MAJOR}.${BYOND_MINOR}_byond_linux.zip" --output byond_linux.zip
+          curl --fail "https://www.byond.com/download/build/${BYOND_MAJOR}/${BYOND_MAJOR}.${BYOND_MINOR}_byond.zip" --output byond_windows.zip
+      - name: Create GitHub Release
+        run: |
+          gh release create v${{ inputs.major }}.${{ inputs.minor }}-${{ github.run_id }}
