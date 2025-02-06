@@ -10,7 +10,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Download BYOND releases
         run: |
-          curl --fail "https://github.com/LikeLakers2/github_actions_test/releases/download/byond_515.1642/byond_linux.zip"
+          curl --fail "https://github.com/LikeLakers2/github_actions_test/releases/download/byond_515.1642/byond_linux.zip" --output byond_linux.zip
       - name: Add BYOND to path
         run: |
           OLD_PWD=$PWD
