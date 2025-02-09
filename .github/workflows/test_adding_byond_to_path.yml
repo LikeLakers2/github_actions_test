@@ -12,13 +12,12 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release download byond_515.1642 --pattern byond_linux.zip --dir ~
+          gh release download --repo likelakers2/byond-versions byond_515.1642 --pattern byond_linux.zip --dir ~
       - name: Unzip and make BYOND
         run: |
           cd ~
           unzip byond_linux.zip
-          cd byond
-          find . -type f -executable
+          echo "$HOME/byond/bin" >> $GITHUB_PATH
       - name: Test using BYOND
         run: |
           DreamDaemon -help
