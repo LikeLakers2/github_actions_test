@@ -18,7 +18,6 @@ jobs:
           cd ~
           unzip byond_linux.zip
           echo "$HOME/byond/bin_redirects" >> $GITHUB_PATH
-          chmod --recursive +x $HOME/byond/bin
       - name: Test using BYOND
         run: |
           DreamDaemon -help
