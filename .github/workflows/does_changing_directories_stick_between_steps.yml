@@ -1,0 +1,17 @@
+name: Check if cd sticks between steps
+
+on:
+  workflow_dispatch:
+
+jobs:
+  add_byond_release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Cd
+        run: |
+          echo $PWD
+          cd .github
+          echo $PWD
+      - name: Test
+        run: echo $PWD
