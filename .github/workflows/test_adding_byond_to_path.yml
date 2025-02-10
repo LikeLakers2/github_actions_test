@@ -20,4 +20,5 @@ jobs:
           echo "$HOME/byond/bin_redirects" >> $GITHUB_PATH
       - name: Test using BYOND
         run: |
+          set -euo pipefail
           DreamDaemon -help
